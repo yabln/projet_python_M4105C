@@ -7,8 +7,6 @@ class Installation :
     def __init__(self, id, name, address, postal_code, city, latitude, longitude):
         """
             Constructor of the Installation object
-            Note that the dictionary containing references to equipements is not
-            initialised here
         """
         self.id = id
         self.name = name
@@ -17,12 +15,6 @@ class Installation :
         self.city = city
         self.latitude = latitude
         self.longotude = longitude
-    
-    def set_equipements(self, equipement_list):
-        """
-            Function used to set the equipements contained within an installation
-        """
-        self.equipements = equipement_list
         
 
 class Equipement :
@@ -33,18 +25,20 @@ class Equipement :
         installation it is linked to in the database
     """
     
-    def __init__(self, id, name, installation_ref):
+    def __init__(self, id, name, installation):
         """
             Constructor of the Equipement object
         """
         self.id = id
         self.name = name
+        self.installation = installation
+        self.activities = []
     
-    def set_activities(self, activities_list):
+    def add_activitie(self, activitie):
         """
             Function used to set the activities that while use the current equipement
         """
-        self.activities = activities_list
+        self.activities.append(activitie)
         
 
 class Activity :
@@ -55,14 +49,20 @@ class Activity :
         to every equipement it is linked to
     """
     
-    def __init__(self, id, name, equipement_refs):
+    def __init__(self, id, name, equipement):
         """
             Constructor of the Activity object
         """
         self.id = id
         self.name = name
-        self.equipement_refs = equipement_refs
+        self.equipement_refs = []
+        self.equipement_refs.append(equipement)
         
+    def add_equipement(self, equipement):
+        """
+            Function used to set the activities that while use the current equipement
+        """
+        self.equipement.append(equipement)        
 
 
     
