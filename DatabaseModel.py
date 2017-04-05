@@ -1,9 +1,12 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 class Installation :
     """
         Class representing the Installation object
         While be created using datas from the installations_table.csv file
     """
-    
+
     def __init__(self, id, name, address, postal_code, city, latitude, longitude):
         """
             Constructor of the Installation object
@@ -14,17 +17,17 @@ class Installation :
         self.postal_code = postal_code
         self.city = city
         self.latitude = latitude
-        self.longotude = longitude
-        
+        self.longitude = longitude
+
 
 class Equipement :
     """
         Class representig the Equipement object
         While be created using datas from the equipements.csv file
-        It is composed of a unique id, a name, and has a reference to the 
+        It is composed of a unique id, a name, and has a reference to the
         installation it is linked to in the database
     """
-    
+
     def __init__(self, id, name, installation):
         """
             Constructor of the Equipement object
@@ -33,13 +36,13 @@ class Equipement :
         self.name = name
         self.installation = installation
         self.activities = []
-    
-    def add_activitie(self, activitie):
+
+    def add_activity(self, activity):
         """
             Function used to set the activities that while use the current equipement
         """
-        self.activities.append(activitie)
-        
+        self.activities.append(activity)
+
 
 class Activity :
     """
@@ -48,7 +51,7 @@ class Activity :
         It is composed of a unique id, a name and a table containing the references
         to every equipement it is linked to
     """
-    
+
     def __init__(self, id, name, equipement):
         """
             Constructor of the Activity object
@@ -57,12 +60,9 @@ class Activity :
         self.name = name
         self.equipement_refs = []
         self.equipement_refs.append(equipement)
-        
+
     def add_equipement(self, equipement):
         """
             Function used to set the activities that while use the current equipement
         """
-        self.equipement.append(equipement)        
-
-
-    
+        self.equipement.append(equipement)
