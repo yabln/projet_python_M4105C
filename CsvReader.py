@@ -24,7 +24,7 @@ class CsvReader:
               Parse the 3 Csv files
               Create object from fields and add it to list
           """
-          with codecs.open('installations.csv', encoding = 'utf-8') as csvfile:
+          with codecs.open('installations.csv', 'rb', encoding = 'utf-8') as csvfile:
                reader = csv.DictReader(csvfile)
                for row in reader:
                     adresse= ""
@@ -49,12 +49,11 @@ class CsvReader:
           with codecs.open('activites.csv', encoding = 'utf-8') as csvfile:
                reader = csv.DictReader(csvfile)
                for row in reader:
-                    if (row['ActCode'] not in self.activities.keys()):
-                         tmp_activity = Activity(row['ActCode'], row['ActLib'], self.equipements[row['EquipementId']])
-                         self.activities[row['ActCode']] = tmp_activity
-                         if (tmp_activity not in self.equipements[row['EquipementId']].activities):
-                            self.equipements[row['EquipementId']].add_activity(tmp_activity)
-                    else:
-                         self.activities[row['ActCode']].add_equipement(self.equipements[row['EquipementId']])
-                         if (self.activities[row['ActCode']] not in self.equipements[row['EquipementId']].activities):
-                            self.equipements[row['EquipementId']].add_activity(self.activities[row['ActCode']])
+                    if row['ActCode'] != '':
+                        if (row['ActCode'] not in self.activities.keys()):
+                             tmp_activity = Activity(row['ActCode'], row['ActLib'], self.equipements[row['EquipementId']])
+                             self.activities[row['ActCode']] = tmp_activity
+                             self.equipements[row['EquipementId']].add_activity(tmp_activity)
+                        else:
+                             self.activities[row['ActCode']].add_equipement(self.equipements[row['EquipementId']])
+                             self.equipements[row['EquipementId']].add_activity(self.activities[row['ActCode']])
