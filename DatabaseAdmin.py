@@ -49,23 +49,27 @@ class DatabaseAdmin :
 
         conn = sqlite3.connect(self.db_name)
         c = conn.cursor()
-        for installation_key in reader.installations:
+        for installation_key in reader.installations.keys():
             insert_query = "INSERT INTO Installation(Id, Name, Address, PostalCode, City, Latitude, Longitude) VALUES(?, ?, ?, ?, ?, ?, ?)"
             instal = reader.installations[installation_key]
             c.execute(insert_query, (instal.id, instal.name, instal.address, instal.postal_code, instal.city, instal.latitude, instal.longitude))
 
-        for activity_key in reader.activities:
+        for activity_key in reader.activities.keys():
             insert_query = "INSERT INTO Activity(Id, Name) VALUES(?, ?)"
-            act = reader.activities [activity_key]
+            act = reader.activities[activity_key]
+            print("Id : " + act.id + " Name : " + act.name)
             c.execute(insert_query, (act.id, act.name))
 
-        for equipement_key in reader.equipements:
+        conn.commit()
+
+        for equipement_key in reader.equipements.keys():
             insert_query = "INSERT INTO Equipement(Id, Name, IdInstallation) VALUES(?, ?, ?)"
             equip = reader.equipements[equipement_key]
             c.execute(insert_query, (equip.id, equip.name, equip.installation.id))
 
             for act in equip.activities:
-                insert_query = "INSERT INTO  EquipementActivity(IdEquipement, IdActivity) VALUES(?, ?)"
+                #print("equipId : " + equip.id + " actId : " + act.id)
+                insert_query = "INSERT INTO EquipementActivity(IdEquipement, IdActivity) VALUES(?, ?)"
                 c.execute(insert_query, (equip.id, act.id))
 
         conn.commit()

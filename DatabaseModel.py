@@ -35,13 +35,13 @@ class Equipement :
         self.id = id
         self.name = name
         self.installation = installation
-        self.activities = []
+        self.activities = set()
 
     def add_activity(self, activity):
         """
             Function used to set the activities that while use the current equipement
         """
-        self.activities.append(activity)
+        self.activities.add(activity)
 
 
 class Activity :
@@ -58,11 +58,11 @@ class Activity :
         """
         self.id = id
         self.name = name
-        self.equipement_refs = []
-        self.equipement_refs.append(equipement)
+        self.equipement_refs = set()
+        self.equipement_refs.add(equipement)
 
     def add_equipement(self, equipement):
         """
             Function used to set the activities that while use the current equipement
         """
-        self.equipement.append(equipement)
+        self.equipement_refs.add(equipement)

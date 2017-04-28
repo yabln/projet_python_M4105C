@@ -51,8 +51,10 @@ class CsvReader:
                for row in reader:
                     if (row['ActCode'] not in self.activities.keys()):
                          tmp_activity = Activity(row['ActCode'], row['ActLib'], self.equipements[row['EquipementId']])
-                         self.equipements[row['EquipementId']].add_activity(tmp_activity)
+                         self.activities[row['ActCode']] = tmp_activity
+                         if (tmp_activity not in self.equipements[row['EquipementId']].activities):
+                            self.equipements[row['EquipementId']].add_activity(tmp_activity)
                     else:
                          self.activities[row['ActCode']].add_equipement(self.equipements[row['EquipementId']])
                          if (self.activities[row['ActCode']] not in self.equipements[row['EquipementId']].activities):
-                            self.equipements[row['EquipementId']].add_activity(activities[row['ActCode']])
+                            self.equipements[row['EquipementId']].add_activity(self.activities[row['ActCode']])
