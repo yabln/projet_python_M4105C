@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import sqlite3
+import re
 from CsvReader import *
 
 class DatabaseAdmin :
@@ -70,3 +71,35 @@ class DatabaseAdmin :
 
         conn.commit()
         conn.close()
+
+    def regexp(expr, item):
+        reg = re.compile(expr)
+        return reg.search(item) is not None
+
+
+    def get_search_result(self, user_input):
+        """
+            Takes a user input, verify that it's conform, and then make a SQL request to fetch elements whose names correspond to that input
+        """
+
+        conn = sqlite3.connect(self.db_name)
+        conn.create_function("REGEXP", 2, self.regexp)
+        c = conn.cursor()
+        striped = user_input.strip()
+        request = re.sub('\s', '|', striped)
+        result = self.search_installation(conn, request)
+        return result
+
+
+
+
+    def search_installation(self, conn, request):
+        """
+            Search the Installation table to get lines that matches the request
+        """
+
+        c = conn.cursor()
+        search_query = "SELECT * FROM Installation T1 WHERE T1.Name REGEXP ? OR T1.Address REGEXP ? OR T1.PostalCode REGEXP ? OR T1.City REGEXP ?"
+        c.execute(search_query, (request, request, request, request))
+        result = c.fetchall()
+        return result
