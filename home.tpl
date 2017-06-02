@@ -7,8 +7,7 @@
   <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
   <link rel= "stylesheet" type= "text/css" href= "cssHome/home.css"/>
   <link rel="stylesheet" href="cssHome/searchBar.css" type="text/css">
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-  <script type="text/javascript" src="js/home.js"></script>
+  <link rel="stylesheet" href="cssHome/installations.css">
 </head>
 <body>
   <header>
@@ -30,8 +29,41 @@
         <button type="submit" id="bsearch">Rechercher</button>
       </div>
       </form>
+      <div class="installations">
+        %if isSearchAsked == "true" :
+          %for installation in installations :
+        <div class="installation">
+          <div class="nameInstallation">
+            <h3># {{installation.id}} - {{installation.name}}</h3></div>
+          <div class="installationBody">
+            <p><span></span><span>{{installation.address}} {{installation.postal_code}} {{installation.city}}</span></p>
+            <p><span></span><span> lat : {{installation.latitude}} ; lon : {{installation.longitude}}</span></p>
+            <hr>
+            <b>Equipements</b></p>
+            <table class="equipement">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Nom</th>
+                  <th>Activités</th>
+                </tr>
+                </thead>
+                <tb>
+                  %for equipement in installation.equipements :
+                  <tr>
+                    <td>{{equipement.id}}</td>
+                    <td>{{equipement.name}}</td>
+                    <td>Football / Football en salle (Futsal) ; Rugby à 15 / Rugby à 7 ; Rugby à 13 / Rugby à 7</td>
+                  </tr>
+                  %end
+                  </tbody>
+            </table>
+          </div>
+        </div>
+        %end
+        %end
+      </div>
     </div>
-
   <footer>
     <ul class="footer-content">
       <li class="footer-category">

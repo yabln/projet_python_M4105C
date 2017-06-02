@@ -1,0 +1,68 @@
+.installations {
+  position: relative;
+  margin-top: 100px;
+  text-align: left;
+}
+
+.installation {
+  margin: 10px;
+  border-style: inset;
+  border: 1px solid #dd4814;
+  border-radius: 4px;
+}
+
+.nameInstallation {
+  color: #ffffff;
+  padding: 10px 15px;
+  background-color: #dd4814;
+  border-color: #dd4814
+}
+
+.installationBody {
+  padding: 10px;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333333;
+}
+
+.equipement>thead>tr>th {
+  font-weight: bold;
+  vertical-align: bottom;
+  border-bottom: 2px solid #dddddd;
+  padding: 5px
+}
+
+.equipement>tbody>tr>td{
+      border-top: 1px solid #dddddd;
+      padding: 5px;
+}
+
+hr {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 0;
+  border-top: 1px solid #eeeeee;
+}
+
+b{
+  font-weight: bold;
+}
+
+p {
+  display: block;
+  margin: 0 0 10px;
+}
+
+th {
+  text-align: left;
+}
+
+table {
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
