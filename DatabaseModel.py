@@ -18,6 +18,14 @@ class Installation :
         self.city = city
         self.latitude = latitude
         self.longitude = longitude
+        self.equipements = set()
+        
+    def add_equipements(self, equipement):
+        """
+            Function used to set the equipement of the current installation
+        """
+        self.equipements.add(equipement)
+    
 
 
 class Equipement :
