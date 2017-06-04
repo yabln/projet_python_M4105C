@@ -84,18 +84,26 @@ class DatabaseAdmin :
         """
 
         conn = sqlite3.connect(self.db_name)
-        #conn.create_function("REGEXP", 2, self.regexp)
 
         request_field = '%' + user_input[0].strip() + '%'
         request_city = '%' + user_input[1].strip() + '%'
 
         activity_ids = []
-        for datas in self.search_activity(conn, request_field):
+        activities_dictionary = {}
+        activities_array = self.search_activity(conn, request_field)
+        for datas in activities_array:
             activity_ids.append(datas[0])
+            activities_dictionary[datas[0]] = datas[1]
 
+
+        equipement_activity_ids = {}
         equipement_ids = []
         for datas in self.get_equipements_by_activity(conn, activity_ids):
             equipement_ids.append(datas[0])
+            if datas[0] in equipement_activity_ids:
+                equipement_activity_ids.get(datas[0]).append(datas[1])
+            else:
+                equipement_activity_ids[datas[0]] = [datas[1]]
 
         equipements_array = self.get_equipements_by_ids(conn, equipement_ids)
 
@@ -105,13 +113,22 @@ class DatabaseAdmin :
                 installation_ids.append(datas[2])
 
         installations_list = []
-        for datas in self.search_installation(conn, request_city, installation_ids):
-            pprint(datas)
-            current_intallation = Installation(datas[0], datas[1], datas[2], datas[3], datas[4], datas[5], datas[6])
+        for datas_installation in self.search_installation(conn, request_city, installation_ids):
+            current_intallation = Installation(datas_installation[0], datas_installation[1], datas_installation[2], datas_installation[3], datas_installation[4], datas_installation[5], datas_installation[6])
             for datas_equipement in equipements_array:
-                if datas[2] == current_intallation.id:
-                    current_intallation.add_equipement(Equipement(datas_equipement[0], datas_equipement[1], datas_equipement[2]))
+                if datas_equipement[2] == current_intallation.id:
+                    current_equipement = Equipement(datas_equipement[0], datas_equipement[1], datas_equipement[2])
+                    for key in equipement_activity_ids.keys():
+                        if key == current_equipement.id:
+                            for value in equipement_activity_ids.get(key):
+                                current_equipement.add_activity(Activity(value, activities_dictionary.get(value)))
+
+                    current_intallation.add_equipement(current_equipement)
+                    equipements_array.remove(datas_equipement)
+
             installations_list.append(current_intallation)
+
+        conn.close()
 
         return installations_list
 
@@ -120,16 +137,15 @@ class DatabaseAdmin :
         """
             Search the Installation table and get the lines that matches the city name in the request
         """
-        conn.close()
-        conn = sqlite3.connect(self.db_name)
+
         c = conn.cursor()
-        search_query = "SELECT * FROM Installation T1 WHERE T1.City LIKE \" Le Moulin de Paillard\" AND T1.Id IN (722400004)"
+        params = [city] + ids
+        search_query = "SELECT * FROM Installation T1 WHERE T1.City LIKE ? AND T1.Id IN ({})".format(",".join(["?"] * len(ids)))
 
         #sqlite3.sqlite3_bind_text(search_query, 0, city)
         #for i in range(len(ids)):
         #    sqlite3.sqlite3_bind_text(search_query, i+1, ids[i])
-        params = [city] + ids
-        c.execute(search_query)
+        c.execute(search_query, params)
         result = c.fetchall()
         return result
 
