@@ -31,7 +31,7 @@
       </div>
       </form>
       <div class="installations">
-        %if isSearchAsked == "true" :
+        %if is_search_asked == "true" :
           %for installation in installations :
         <div class="installation">
           <div class="nameInstallation">

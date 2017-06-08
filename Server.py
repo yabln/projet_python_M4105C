@@ -1,12 +1,12 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from bottle import get, post, route, template, request, run, static_file
-from DatabaseAdmin import *
 from CsvReader import *
+from DatabaseAdmin import *
+from bottle import get, post, route, template, request, run, static_file
 
 reader = CsvReader()
-reader.parse_Csv_files()
+reader.parse_csv_files()
 
 admin = DatabaseAdmin("datas.db")
 admin.create_tables()
@@ -20,17 +20,17 @@ def style(filename):
 
 @get('/home')
 def home():
-    return template('home', isSearchAsked="false")
+    return template('home', is_search_asked="false")
 
 
 @post('/home')
 def do_home():
-    searchrequestactivity = request.forms.get('searchActivity')
-    searchrequestcity = request.forms.get('searchCity')
+    search_request_activity = request.forms.get('searchActivity')
+    search_request_city = request.forms.get('searchCity')
 
-    installationstest = admin.get_search_result([searchrequestactivity, searchrequestcity])
+    installations_test = admin.get_search_result([search_request_activity, search_request_city])
 
-    return template('home', installations=installationstest, isSearchAsked="true")
+    return template('home', installations=installations_test, is_search_asked="true")
 
 
 run(host='localhost', port=8080)

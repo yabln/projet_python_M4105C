@@ -66,9 +66,9 @@ class DatabaseAdmin:
             act = reader.activities[activity_key]
             c.execute(insert_query, (act.id, act.name))
 
-        for equipment_key in reader.equipements:
+        for equipment_key in reader.equipments:
             insert_query = "INSERT INTO Equipment(Id, Name, IdInstallation) VALUES(?, ?, ?)"
-            equip = reader.equipements[equipment_key]
+            equip = reader.equipments[equipment_key]
             c.execute(insert_query, (equip.id, equip.name, equip.installation.id))
 
             for act in equip.activities:
