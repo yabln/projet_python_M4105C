@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>80 Vignobles - Acceuil</title>
+  <title>Installations Sportives en Pays de la Loire</title>
   <meta charset="utf-8" />
   <link rel="stylesheet" href="cssHome/reset.css" type="text/css">
   <link rel="stylesheet" href="cssHome/main.css" type="text/css">
@@ -13,9 +13,9 @@
   <header>
     <h1>Installations Sportives</h1>
     <ul class="nav">
-      <li class="header-menu selected"><a href="details.html" class="menu">Acceuil</a></li><!--
-        ---><li class="header-menu"><a href="details.html" class="menu">Carte</a></li>
-      </ul>
+      <li class="header-menu selected"><a href="details.html" class="menu">Acceuil</a></li>
+      <li class="header-menu"><a href="details.html" class="menu">Carte</a></li>
+    </ul>
     </header>
 
     <div class="all">
@@ -74,17 +74,20 @@
   <footer>
     <ul class="footer-content">
       <li class="footer-category">
-        <h3 class="footer-title">A propos</h3>
-        <p class="footer-description">Bienvenue sur 80 Vignobles, la référence en matière de tourisme viticole. Nous vous proposons de découvrir les meilleurs vignobles, les caves les plus prestigieuses, et tant d'autres.</p>
-      </li><!--
-        ---><li class="footer-category">
+        <h3 class="footer-title">À propos</h3>
+        <p class="footer-description">Bienvenue sur le site Installations Sportives en Pays de la Loire, l'annuaire de référence pour les activités et les équipements sportifs dans la région. </p>
+      </li>
+      <li class="footer-category">
         <h3 class="footer-title">Nous contacter</h3>
         <ul class="footer-contact">
-          <li><a class="email-button" href="mailto:livinnantes@gmail.com?subject=[CONTACT]" target="_blank"><img src="img/email_logo.png" alt="Send Email" />E-mail à 80 Vignobles</a></li>
+          <li>
+            <a class="email-button" href="mailto:livinnantes@gmail.com?subject=[CONTACT]" target="_blank">
+              <img src="img/email_logo.png" alt="Send Email" />Contact E-mail
+            </a>
+          </li>
         </ul>
       </li>
     </ul>
   </footer>
 </body>
-
 </html>
