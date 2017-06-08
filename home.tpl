@@ -11,7 +11,7 @@
 </head>
 <body>
   <header>
-    <h1>80 Vignobles</h1>
+    <h1>Installations Sportives</h1>
     <ul class="nav">
       <li class="header-menu selected"><a href="details.html" class="menu">Acceuil</a></li><!--
         ---><li class="header-menu"><a href="details.html" class="menu">Selection</a></li><!--
@@ -23,7 +23,8 @@
     <div class="all">
       <form action="/home" method="post">
       <div class="container-1">
-        <input type="search" id="search" name="search" placeholder="Recherche..." />
+        <input type="search" id="searchActivity" name="searchActivity" placeholder="Recherche Activité" />
+        <input type="search" id="searchCity" name="searchCity" placeholder="Recherche Ville" />
       </div>
       <div class="container-2">
         <button type="submit" id="bsearch">Rechercher</button>
@@ -49,11 +50,15 @@
                 </tr>
                 </thead>
                 <tb>
-                  %for equipement in installation.equipements :
+                  %for equipment in installation.equipments :
                   <tr>
-                    <td>{{equipement.id}}</td>
-                    <td>{{equipement.name}}</td>
-                    <td>Football / Football en salle (Futsal) ; Rugby à 15 / Rugby à 7 ; Rugby à 13 / Rugby à 7</td>
+                    <td>{{equipment.id}}</td>
+                    <td>{{equipment.name}}</td>
+                    <td>
+                      %for activity in equipment.activities :
+                        <p>{{activity.name}} ;</p>
+                      %end
+                    </td>
                   </tr>
                   %end
                   </tbody>
