@@ -14,9 +14,7 @@
     <h1>Installations Sportives</h1>
     <ul class="nav">
       <li class="header-menu selected"><a href="details.html" class="menu">Acceuil</a></li><!--
-        ---><li class="header-menu"><a href="details.html" class="menu">Selection</a></li><!--
-        ---><li class="header-menu"><a href="details.html" class="menu">Carte</a></li><!--
-        ---><li class="header-menu"><a href="details.html" class="menu">Contact</a></li>
+        ---><li class="header-menu"><a href="details.html" class="menu">Carte</a></li>
       </ul>
     </header>
 
@@ -56,7 +54,11 @@
                     <td>{{equipment.name}}</td>
                     <td>
                       %for activity in equipment.activities :
-                        <p>{{activity.name}} ;</p>
+                        <p>{{activity.name}}
+                          %if len(equipment.activities) != 1 :
+                          ;
+                          %end
+                        </p>
                       %end
                     </td>
                   </tr>
