@@ -67,6 +67,16 @@ class Activity :
         self.id = id
         self.name = name
         self.equipement_refs = set()
+        
+    def __init__(self, id, name, equipement):
+        """
+               Constructor of the Activity object
+        """
+        self.id = id
+        self.name = name
+        self.equipement_refs = set()
+        self.equipement_refs.add(equipement)
+    
 
     def add_equipement(self, equipement):
         """
