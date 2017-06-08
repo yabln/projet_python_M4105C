@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 import sqlite3
-import re
-from CsvReader import *
-from pprint import pprint
 
-class DatabaseAdmin :
+from CsvReader import *
+
+
+class DatabaseAdmin:
     """
-        This class has the goal to create, access, modify or destroy the sqlite3 database used to store the project datas
+        This class has the goal to create, access, modify or destroy the sqlite3 database used to store the project data
     """
 
     def __init__(self, db_name):
@@ -27,19 +27,21 @@ class DatabaseAdmin :
         c = conn.cursor()
 
         c.execute("DROP TABLE IF EXISTS Installation;")
-        c.execute("DROP TABLE IF EXISTS Equipement;")
+        c.execute("DROP TABLE IF EXISTS Equipment;")
         c.execute("DROP TABLE IF EXISTS Activity;")
-        c.execute("DROP TABLE IF EXISTS EquipementActivity;")
+        c.execute("DROP TABLE IF EXISTS EquipmentActivity;")
 
-        c.execute("CREATE TABLE Installation (Id INTEGER PRIMARY KEY, Name TEXT, Address TEXT, \
-        PostalCode INTEGER, City TEXT, Latitude REAL, Longitude Real);")
+        c.execute("CREATE TABLE Installation (Id INTEGER PRIMARY KEY, Name TEXT, Address TEXT, "
+                  "PostalCode INTEGER, City TEXT, Latitude REAL, Longitude Real);")
 
-        c.execute("CREATE TABLE Equipement (Id INTEGER PRIMARY KEY, Name TEXT, \
-        IdInstallation INTEGER, FOREIGN KEY(IdInstallation) REFERENCES Installation(Id));")
+        c.execute("CREATE TABLE Equipment (Id INTEGER PRIMARY KEY, Name TEXT, "
+                  "IdInstallation INTEGER, FOREIGN KEY(IdInstallation) REFERENCES Installation(Id));")
 
         c.execute("CREATE TABLE Activity (Id INTEGER PRIMARY KEY, Name TEXT);")
 
-        c.execute("CREATE TABLE EquipementActivity (IdEquipement INTEGER, IdActivity INTEGER, PRIMARY KEY (IdEquipement, IdActivity));")
+        c.execute(
+            "CREATE TABLE EquipmentActivity (IdEquipment INTEGER, IdActivity INTEGER, PRIMARY KEY (IdEquipment, "
+            "IdActivity));")
 
         conn.commit()
         conn.close()
@@ -52,35 +54,34 @@ class DatabaseAdmin :
         conn = sqlite3.connect(self.db_name)
         c = conn.cursor()
         for installation_key in reader.installations:
-            insert_query = "INSERT INTO Installation(Id, Name, Address, PostalCode, City, Latitude, Longitude) VALUES(?, ?, ?, ?, ?, ?, ?)"
-            instal = reader.installations[installation_key]
-            c.execute(insert_query, (instal.id, instal.name, instal.address, instal.postal_code, instal.city, instal.latitude, instal.longitude))
+            insert_query = "INSERT INTO Installation(Id, Name, Address, PostalCode, City, Latitude, Longitude) " \
+                           "VALUES(?, ?, ?, ?, ?, ?, ?) "
+            install = reader.installations[installation_key]
+            c.execute(insert_query, (
+                install.id, install.name, install.address, install.postal_code, install.city, install.latitude,
+                install.longitude))
 
         for activity_key in reader.activities:
             insert_query = "INSERT INTO Activity(Id, Name) VALUES(?, ?)"
             act = reader.activities[activity_key]
             c.execute(insert_query, (act.id, act.name))
 
-        for equipement_key in reader.equipements:
-            insert_query = "INSERT INTO Equipement(Id, Name, IdInstallation) VALUES(?, ?, ?)"
-            equip = reader.equipements[equipement_key]
+        for equipment_key in reader.equipements:
+            insert_query = "INSERT INTO Equipment(Id, Name, IdInstallation) VALUES(?, ?, ?)"
+            equip = reader.equipements[equipment_key]
             c.execute(insert_query, (equip.id, equip.name, equip.installation.id))
 
             for act in equip.activities:
-                insert_query = "INSERT INTO EquipementActivity(IdEquipement, IdActivity) VALUES(?, ?)"
+                insert_query = "INSERT INTO EquipmentActivity(IdEquipment, IdActivity) VALUES(?, ?)"
                 c.execute(insert_query, (equip.id, act.id))
 
         conn.commit()
         conn.close()
 
-    def regexp(expr, item):
-        reg = re.compile(expr)
-        return reg.search(item) is not None
-
-
     def get_search_result(self, user_input):
         """
-            Takes a user input, verify that it's conform, and then make a SQL request to fetch elements whose names correspond to that input
+        Takes a user input, verify that it's conform, and then make a SQL request to fetch elements whose names
+        correspond to that input
         """
 
         conn = sqlite3.connect(self.db_name)
@@ -91,66 +92,65 @@ class DatabaseAdmin :
         activity_ids = []
         activities_dictionary = {}
         activities_array = self.search_activity(conn, request_field)
-        for datas in activities_array:
-            activity_ids.append(datas[0])
-            activities_dictionary[datas[0]] = datas[1]
+        for data in activities_array:
+            activity_ids.append(data[0])
+            activities_dictionary[data[0]] = data[1]
 
-
-        equipement_activity_ids = {}
-        equipement_ids = []
-        for datas in self.get_equipements_by_activity(conn, activity_ids):
-            equipement_ids.append(datas[0])
-            if datas[0] in equipement_activity_ids:
-                equipement_activity_ids.get(datas[0]).append(datas[1])
+        equipment_activity_ids = {}
+        equipment_ids = []
+        for data in self.get_equipments_by_activity(conn, activity_ids):
+            equipment_ids.append(data[0])
+            if data[0] in equipment_activity_ids:
+                equipment_activity_ids.get(data[0]).append(data[1])
             else:
-                equipement_activity_ids[datas[0]] = [datas[1]]
+                equipment_activity_ids[data[0]] = [data[1]]
 
-        equipements_array = self.get_equipements_by_ids(conn, equipement_ids)
+        equipments_array = self.get_equipments_by_ids(conn, equipment_ids)
 
         installation_ids = []
-        for datas in equipements_array:
-            if not(datas[2] in installation_ids):
-                installation_ids.append(datas[2])
+        for data in equipments_array:
+            if not (data[2] in installation_ids):
+                installation_ids.append(data[2])
 
         installations_list = []
-        for datas_installation in self.search_installation(conn, request_city, installation_ids):
-            current_intallation = Installation(datas_installation[0], datas_installation[1], datas_installation[2], datas_installation[3], datas_installation[4], datas_installation[5], datas_installation[6])
-            for datas_equipement in equipements_array:
-                if datas_equipement[2] == current_intallation.id:
-                    current_equipement = Equipement(datas_equipement[0], datas_equipement[1], datas_equipement[2])
-                    for key in equipement_activity_ids.keys():
-                        if key == current_equipement.id:
-                            for value in equipement_activity_ids.get(key):
-                                current_equipement.add_activity(Activity(value, activities_dictionary.get(value)))
+        for data_installation in self.search_installation(conn, request_city, installation_ids):
+            current_installation = Installation(data_installation[0], data_installation[1], data_installation[2],
+                                                data_installation[3], data_installation[4], data_installation[5],
+                                                data_installation[6])
+            for data_equipment in equipments_array:
+                if data_equipment[2] == current_installation.id:
+                    current_equipment = Equipment(data_equipment[0], data_equipment[1], data_equipment[2])
+                    for key in equipment_activity_ids.keys():
+                        if key == current_equipment.id:
+                            for value in equipment_activity_ids.get(key):
+                                current_equipment.add_activity(Activity(value, activities_dictionary.get(value)))
 
-                    current_intallation.add_equipement(current_equipement)
-                    equipements_array.remove(datas_equipement)
+                    current_installation.add_equipment(current_equipment)
+                    equipments_array.remove(data_equipment)
 
-            installations_list.append(current_intallation)
+            installations_list.append(current_installation)
 
         conn.close()
 
         return installations_list
 
-
-    def search_installation(self, conn, city, ids):
+    @staticmethod
+    def search_installation(conn, city, ids):
         """
             Search the Installation table and get the lines that matches the city name in the request
         """
 
         c = conn.cursor()
         params = [city] + ids
-        search_query = "SELECT * FROM Installation T1 WHERE T1.City LIKE ? AND T1.Id IN ({})".format(",".join(["?"] * len(ids)))
+        search_query = "SELECT * FROM Installation T1 WHERE T1.City LIKE ? AND T1.Id IN ({})".format(
+            ",".join(["?"] * len(ids)))
 
-        #sqlite3.sqlite3_bind_text(search_query, 0, city)
-        #for i in range(len(ids)):
-        #    sqlite3.sqlite3_bind_text(search_query, i+1, ids[i])
         c.execute(search_query, params)
         result = c.fetchall()
         return result
 
-
-    def search_activity(self, conn, request):
+    @staticmethod
+    def search_activity(conn, request):
         """
             Search the Activity table to get lines that matches the request
         """
@@ -161,26 +161,27 @@ class DatabaseAdmin :
         result = c.fetchall()
         return result
 
-
-    def get_equipements_by_activity(self, conn, request):
+    @staticmethod
+    def get_equipments_by_activity(conn, request):
         """
-            For a set of activities' id passed in argument, returns a set of the equpements' id linked to the former
+            For a set of activities' id passed in argument, returns a set of the equipments' id linked to the former
         """
 
         c = conn.cursor()
-        search_query = "SELECT * FROM EquipementActivity T1 WHERE T1.IdActivity IN ({})".format(",".join(["?"] * len(request)))
+        search_query = "SELECT * FROM EquipmentActivity T1 WHERE T1.IdActivity IN ({})".format(
+            ",".join(["?"] * len(request)))
         c.execute(search_query, tuple(request))
         result = c.fetchall()
         return result
 
-
-    def get_equipements_by_ids(self, conn, request):
+    @staticmethod
+    def get_equipments_by_ids(conn, request):
         """
-            Fetch all equipements in the table via their Ids
+            Fetch all equipments in the table via their Ids
         """
 
         c = conn.cursor()
-        search_query = "SELECT * FROM Equipement T1 WHERE T1.Id IN ({})".format(",".join(["?"] * len(request)))
+        search_query = "SELECT * FROM Equipment T1 WHERE T1.Id IN ({})".format(",".join(["?"] * len(request)))
         c.execute(search_query, tuple(request))
         result = c.fetchall()
         return result
