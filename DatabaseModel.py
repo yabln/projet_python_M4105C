@@ -1,10 +1,11 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-class Installation :
+
+class Installation:
     """
         Class representing the Installation object
-        While be created using datas from the installations_table.csv file
+        While be created using data from the installations.csv file
     """
 
     def __init__(self, id, name, address, postal_code, city, latitude, longitude):
@@ -18,27 +19,26 @@ class Installation :
         self.city = city
         self.latitude = latitude
         self.longitude = longitude
-        self.equipements = set()
+        self.equipments = set()
 
-    def add_equipement(self, equipement):
+    def add_equipment(self, equipment):
         """
-            Function used to add a new equipement to the current installation
+            Function used to add a new equipment to the current installation
         """
-        self.equipements.add(equipement)
+        self.equipments.add(equipment)
 
 
-
-class Equipement :
+class Equipment:
     """
-        Class representig the Equipement object
-        While be created using datas from the equipements.csv file
+        Class representing the Equipment object
+        While be created using data from the equipements.csv file
         It is composed of a unique id, a name, and has a reference to the
         installation it is linked to in the database
     """
 
     def __init__(self, id, name, installation):
         """
-            Constructor of the Equipement object
+            Constructor of the Equipment object
         """
         self.id = id
         self.name = name
@@ -47,32 +47,31 @@ class Equipement :
 
     def add_activity(self, activity):
         """
-            Function used to set the activities that while use the current equipement
+            Function used to set the activities that while use the current equipment
         """
         self.activities.add(activity)
 
 
-class Activity :
+class Activity:
     """
-        Class representig the Activity object
-        While be created using datas from the equipements_activites.csv file
+        Class representing the Activity object
+        While be created using data from the activites.csv file
         It is composed of a unique id, a name and a table containing the references
-        to every equipement it is linked to
+        to every equipment it is linked to
     """
 
-    def __init__(self, id, name, equipement = None):
+    def __init__(self, id, name, equipment=None):
         """
                Constructor of the Activity object
         """
         self.id = id
         self.name = name
-        self.equipement_refs = set()
-        if equipement is not None:
-            self.equipement_refs.add(equipement)
+        self.equipment_refs = set()
+        if equipment is not None:
+            self.equipment_refs.add(equipment)
 
-
-    def add_equipement(self, equipement):
+    def add_equipment(self, equipment):
         """
-            Function used to set the activities that while use the current equipement
+            Function used to set the activities that while use the current equipment
         """
-        self.equipement_refs.add(equipement)
+        self.equipment_refs.add(equipment)
