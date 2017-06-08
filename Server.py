@@ -1,3 +1,6 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
 from bottle import get, post, route, template, request, run, static_file
 from DatabaseModel import *
 from DatabaseAdmin import *
@@ -9,7 +12,7 @@ reader.parse_Csv_files()
 admin = DatabaseAdmin("datas.db")
 admin.create_tables()
 admin.insert_from_csv_reader(reader)
-                                
+
 
 
 
@@ -26,9 +29,9 @@ def home():
 @post('/home')
 def do_home():
     searchRequest = request.forms.get('search')
-    
-    admin.get_search_result([searchRequest, "nantes"])
-    
+
+    installationsTest = admin.get_search_result([searchRequest, "nantes"])
+
     return template('home', installations=installationsTest, isSearchAsked="true")
 
 

@@ -60,23 +60,16 @@ class Activity :
         to every equipement it is linked to
     """
 
-    def __init__(self, id, name):
-        """
-            Constructor of the Activity object
-        """
-        self.id = id
-        self.name = name
-        self.equipement_refs = set()
-        
-    def __init__(self, id, name, equipement):
+    def __init__(self, id, name, equipement = None):
         """
                Constructor of the Activity object
         """
         self.id = id
         self.name = name
         self.equipement_refs = set()
-        self.equipement_refs.add(equipement)
-    
+        if equipement is not None:
+            self.equipement_refs.add(equipement)
+
 
     def add_equipement(self, equipement):
         """
