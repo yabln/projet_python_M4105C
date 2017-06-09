@@ -13,8 +13,8 @@
   <header>
     <h1>Installations Sportives</h1>
     <ul class="nav">
-      <li class="header-menu selected"><a href="details.html" class="menu">Acceuil</a></li>
-      <li class="header-menu"><a href="details.html" class="menu">Carte</a></li>
+      <li class="header-menu selected"><a href="home" class="menu">Acceuil</a></li>
+      <li class="header-menu"><a href="home" class="menu">Carte</a></li>
     </ul>
     </header>
 

@@ -13,10 +13,14 @@ admin.insert_from_csv_reader(reader)
 
 
 # configuring server
-@route("/cssHome/<filename>")
+@route('/cssHome/<filename>')
 def style(filename):
     return static_file(filename, root='cssHome/')
 
+
+@route('/img/<filename>')
+def picture(filename):
+    return static_file(filename, root='img/')
 
 @get('/home')
 def home():
