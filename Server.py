@@ -1,14 +1,13 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-from CsvReader import *
 from DatabaseAdmin import *
-from bottle import get, post, route, template, request, run, static_file
+from lib.bottle import get, post, route, template, request, run, static_file
 
 reader = CsvReader()
 reader.parse_csv_files()
 
-admin = DatabaseAdmin("datas.db")
+admin = DatabaseAdmin("data.db")
 admin.create_tables()
 admin.insert_from_csv_reader(reader)
 

@@ -71,6 +71,7 @@ class DatabaseAdmin:
             equip = reader.equipments[equipment_key]
             c.execute(insert_query, (equip.id, equip.name, equip.installation.id))
 
+            # We use the activities references present on the equipment to create a linking table
             for act in equip.activities:
                 insert_query = "INSERT INTO EquipmentActivity(IdEquipment, IdActivity) VALUES(?, ?)"
                 c.execute(insert_query, (equip.id, act.id))
@@ -93,6 +94,7 @@ class DatabaseAdmin:
         activities_dictionary = {}
         activities_array = self.search_activity(conn, request_field)
         for data in activities_array:
+            # We use an array of id to easily iterate and a dictionary to find the names correspondence later
             activity_ids.append(data[0])
             activities_dictionary[data[0]] = data[1]
 
@@ -100,6 +102,7 @@ class DatabaseAdmin:
         equipment_ids = []
         for data in self.get_equipments_by_activity(conn, activity_ids):
             equipment_ids.append(data[0])
+            # If the reference doesn't exist we create it, if it does we add the activityId to it
             if data[0] in equipment_activity_ids:
                 equipment_activity_ids.get(data[0]).append(data[1])
             else:
@@ -109,10 +112,11 @@ class DatabaseAdmin:
 
         installation_ids = []
         for data in equipments_array:
-            if not (data[2] in installation_ids):
+            if data[2] not in installation_ids:
                 installation_ids.append(data[2])
 
         installations_list = []
+        # At first we get all installations matching our previously gathered ids and the city name
         for data_installation in self.search_installation(conn, request_city, installation_ids):
             current_installation = Installation(data_installation[0], data_installation[1], data_installation[2],
                                                 data_installation[3], data_installation[4], data_installation[5],
@@ -120,9 +124,11 @@ class DatabaseAdmin:
             for data_equipment in equipments_array:
                 if data_equipment[2] == current_installation.id:
                     current_equipment = Equipment(data_equipment[0], data_equipment[1], data_equipment[2])
+                    # Then, we add the matching equipments to the installation object
                     for key in equipment_activity_ids.keys():
                         if key == current_equipment.id:
                             for value in equipment_activity_ids.get(key):
+                                # And the matching activities to the equipment object
                                 current_equipment.add_activity(Activity(value, activities_dictionary.get(value)))
 
                     current_installation.add_equipment(current_equipment)
