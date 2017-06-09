@@ -25,7 +25,7 @@ class CsvReader:
               Parse the 3 Csv files
               Create object from fields and add it to list
         """
-        with codecs.open('source_files/installations.csv', 'rb', encoding='utf-8') as csvfile:
+        with codecs.open('resources/installations.csv', 'rb', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 # dealing with the address
@@ -42,7 +42,7 @@ class CsvReader:
                                                 row['Longitude'])
                 self.installations[row['Numéro de l\'installation']] = tmp_installation
 
-        with codecs.open('source_files/equipements.csv', encoding='utf-8') as csvfile:
+        with codecs.open('resources/equipements.csv', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 # initialising object using fields, get the reference of the associated installation
@@ -50,7 +50,7 @@ class CsvReader:
                                            self.installations.get(row['InsNumeroInstall']))
                 self.equipments[row['EquipementId']] = tmp_equipement
 
-        with codecs.open('source_files/activites.csv', encoding='utf-8') as csvfile:
+        with codecs.open('resources/activites.csv', encoding='utf-8') as csvfile:
             reader = csv.DictReader(csvfile)
             for row in reader:
                 # check for file empty line

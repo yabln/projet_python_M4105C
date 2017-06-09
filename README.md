@@ -1,7 +1,9 @@
 # projet_python_M4105C
 
 ## Quick description
-  This repo contains a project which we are doing 
+  This repository contains a project which we are doing for our software production technologies course.
+  The website will allow you to display the sports installations, equipments and activities of the Pays de la Loire region,
+  while making searching through them easier. We also aim to offer the possibility to display the results on a map.
 
 
 ## How to get the source files
@@ -15,7 +17,7 @@
 
   1. Open a Bash terminal.
   2. Navigate to the directory where you unzipped the project
-  3. Navigate to `projet_python_M4105C-master`.
+  3. Navigate to `projet_python_M4105C-master/main/`.
   4. Execute `chmod +x Server.py`.
   5. Execute `./Server.py`.
   6. You will then see something like this in your Bash terminal :

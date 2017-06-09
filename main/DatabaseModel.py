@@ -5,7 +5,7 @@
 class Installation:
     """
         Class representing the Installation object
-        While be created using data from the installations.csv file
+        While be created using resources from the installations.csv file
     """
 
     def __init__(self, id, name, address, postal_code, city, latitude, longitude):
@@ -31,7 +31,7 @@ class Installation:
 class Equipment:
     """
         Class representing the Equipment object
-        While be created using data from the equipements.csv file
+        While be created using resources from the equipements.csv file
         It is composed of a unique id, a name, and has a reference to the
         installation it is linked to in the database
     """
@@ -55,7 +55,7 @@ class Equipment:
 class Activity:
     """
         Class representing the Activity object
-        While be created using data from the activites.csv file
+        While be created using resources from the activites.csv file
         It is composed of a unique id, a name and a table containing the references
         to every equipment it is linked to
     """

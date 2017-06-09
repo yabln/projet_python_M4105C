@@ -3,12 +3,12 @@
 
 import sqlite3
 
-from CsvReader import *
+from DatabaseModel import *
 
 
 class DatabaseAdmin:
     """
-        This class has the goal to create, access, modify or destroy the sqlite3 database used to store the project data
+        This class has the goal to create, access, modify or destroy the sqlite3 database used to store the project resources
     """
 
     def __init__(self, db_name):

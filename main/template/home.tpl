@@ -2,18 +2,18 @@
 <head>
   <title>Installations Sportives en Pays de la Loire</title>
   <meta charset="utf-8" />
-  <link rel="stylesheet" href="cssHome/reset.css" type="text/css">
-  <link rel="stylesheet" href="cssHome/main.css" type="text/css">
+  <link rel="stylesheet" href="css/reset.css" type="text/css">
+  <link rel="stylesheet" href="css/main.css" type="text/css">
   <link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
-  <link rel= "stylesheet" type= "text/css" href= "cssHome/home.css"/>
-  <link rel="stylesheet" href="cssHome/searchBar.css" type="text/css">
-  <link rel="stylesheet" href="cssHome/installations.css">
+  <link rel= "stylesheet" type= "text/css" href= "css/home.css"/>
+  <link rel="stylesheet" href="css/searchBar.css" type="text/css">
+  <link rel="stylesheet" href="css/installations.css">
 </head>
 <body>
   <header>
     <h1>Installations Sportives</h1>
     <ul class="nav">
-      <li class="header-menu selected"><a href="home" class="menu">Acceuil</a></li>
+      <li class="header-menu selected"><a href="home" class="menu">Accueil</a></li>
       <li class="header-menu"><a href="home" class="menu">Carte</a></li>
     </ul>
     </header>
